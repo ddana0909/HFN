@@ -34,8 +34,8 @@ namespace Hopfield
         {
             if (State == 1)
             {
-                BackColor = Color.Red;
-                FlatAppearance.BorderColor = Color.Red;
+                BackColor = Color.Green;
+                FlatAppearance.BorderColor = Color.Green;
             }
             else
             {

@@ -118,7 +118,7 @@ namespace Hopfield
                         {
                             neuronOutput += WeightMatrix[neuron, i] * OutputMatrix[i / _inputMatrixSize, i % _inputMatrixSize];
                         }
-                        var discreetNeuronOutput = (neuronOutput < 0) ? -1 : 1;
+                        int discreetNeuronOutput = (neuronOutput >= 0) ? 1 : -1;
                         if (OutputMatrix[neuron / _inputMatrixSize, neuron % _inputMatrixSize] != discreetNeuronOutput)
                         {
                             noOfChanges++;

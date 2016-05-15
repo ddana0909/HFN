@@ -14,10 +14,13 @@ namespace Hopfield
 {
     public partial class Form1 : Form
     {
+        String path = "../../Numbers/";
         private int[,] matrix;
         private int _noOfNeurons;
         private int _inputMatrixSize;
         private bool[] _visitedNeurons;
+        private bool load;
+        private bool train;
         private Random _randomNumber;
         private double[,] WeightMatrix;
         private int[,] InputMatrix;
@@ -129,7 +132,7 @@ namespace Hopfield
 
 
             }
-            MessageBox.Show("Ai gatat treaba!");
+            MessageBox.Show("Recognition is finished!");
 
         }
 
@@ -158,6 +161,27 @@ namespace Hopfield
                 l = 0;
             }
         }
+        public void WriteMatrixToFile(int[,] a)
+        {
+            using (System.IO.TextWriter tw = new System.IO.StreamWriter(path + textBox1.Text + ".txt"))
+            {
+                for (int i = 0; i < _inputMatrixSize; i++)
+                {
+                    for (int j = 0; j < _inputMatrixSize; j++)
+                    {
+                        if (a[i, j] == 1)
+                        {
+                            tw.Write(a[i, j]);
+                        }
+                        else {
+                            tw.Write(-1);
+                        }
+                        tw.Write(" ");
+                    }
+                    tw.WriteLine();
+                }
+            }
+        }
         void GridClick(object sender, EventArgs e)
         {
             var x = (NeuronButton)sender;
@@ -168,7 +192,15 @@ namespace Hopfield
 
         private void button1_Click(object sender, EventArgs e)
         {
-            DrawNumber(comboBox1.SelectedIndex.ToString());
+            if (  comboBox1.SelectedIndex != -1)
+            {
+                DrawNumber(comboBox1.SelectedIndex.ToString());
+                load = true;
+            }
+            else
+            {
+                MessageBox.Show("Choose a number to load!");
+            }
         }
 
         private int[,] GetmatrixFromFile(string path)
@@ -213,10 +245,8 @@ namespace Hopfield
         }
         public void DrawNumber(string fileName)
         {
-            //int[,] 
             matrix = GetmatrixFromFile(fileName);
             DrawMatrix(matrix);
-
         }
        
         private void button2_Click(object sender, EventArgs e)
@@ -228,24 +258,52 @@ namespace Hopfield
                 {
                     patterns.Add(GetmatrixFromFile((string)itemChecked));
                 }
+                TrainNetwork(patterns);
+                train = true;
+                MessageBox.Show("Weight matrix is ready!");
             }
-            // WeightMatrix = new int[100,100]();
-            TrainNetwork(patterns);
-
+            else
+            {
+                MessageBox.Show("Choose patern(s) to learn!");
+            }
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
-
-            for (int i = 0; i < _inputMatrixSize; i++)
+            if (load && train)
             {
-                for (int j = 0; j < _inputMatrixSize; j++)
+                for (int i = 0; i < _inputMatrixSize; i++)
                 {
-                    InputMatrix[i,j] = matrix[i,j];
+                    for (int j = 0; j < _inputMatrixSize; j++)
+                    {
+                        InputMatrix[i, j] = matrix[i, j];
+                    }
+                }
+
+                RunRecognition();
+            }
+            else
+            {
+                if (load)
+                {
+                    MessageBox.Show("Train the network!");
+                }
+                else
+                {
+                    MessageBox.Show("Load number!");
                 }
             }
-            
-            RunRecognition();
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            if (textBox1.Text == " ")
+            {
+                WriteMatrixToFile(matrix);
+            }
+            {
+                MessageBox.Show("Give a filename to the pattern!");
+            }
         }
     }
 }

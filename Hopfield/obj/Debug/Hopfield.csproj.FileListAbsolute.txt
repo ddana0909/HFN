@@ -1,0 +1,10 @@
+D:\Workspace\NP\HFN\Hopfield\bin\Debug\Hopfield.exe.config
+D:\Workspace\NP\HFN\Hopfield\bin\Debug\Hopfield.exe
+D:\Workspace\NP\HFN\Hopfield\bin\Debug\Hopfield.pdb
+D:\Workspace\NP\HFN\Hopfield\obj\Debug\Hopfield.csprojResolveAssemblyReference.cache
+D:\Workspace\NP\HFN\Hopfield\obj\Debug\Hopfield.Form1.resources
+D:\Workspace\NP\HFN\Hopfield\obj\Debug\Hopfield.NeuronButton.resources
+D:\Workspace\NP\HFN\Hopfield\obj\Debug\Hopfield.Properties.Resources.resources
+D:\Workspace\NP\HFN\Hopfield\obj\Debug\Hopfield.csproj.GenerateResource.Cache
+D:\Workspace\NP\HFN\Hopfield\obj\Debug\Hopfield.exe
+D:\Workspace\NP\HFN\Hopfield\obj\Debug\Hopfield.pdb

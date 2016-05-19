@@ -31,7 +31,7 @@ namespace Hopfield
             _inputMatrixSize = inputMatrixSize;
             matrix = new int[_inputMatrixSize, _inputMatrixSize];
             WeightMatrix = new double[_noOfNeurons, _noOfNeurons];
-            InputMatrix = new int[_inputMatrixSize,_inputMatrixSize];
+            InputMatrix = new int[_inputMatrixSize, _inputMatrixSize];
             _visitedNeurons = new bool[_noOfNeurons];
             _randomNumber = new Random();
         }
@@ -48,12 +48,11 @@ namespace Hopfield
                         if (i == j)
                             WeightMatrix[i, j] = 0;
                         else
-                        {
-                            double wij = 1.0 / noOfPaterns * pattern[i / _inputMatrixSize, i % _inputMatrixSize] * pattern[j / _inputMatrixSize, j % _inputMatrixSize];
+                        { //0,1; 0,2; 0,3 ....
+                            double wij =  pattern[i / _inputMatrixSize, i % _inputMatrixSize] * pattern[j / _inputMatrixSize, j % _inputMatrixSize] ;
                             WeightMatrix[i, j] += wij;
                             WeightMatrix[j, i] += wij;
                         }
-
                     }
                 }
             }
@@ -112,26 +111,28 @@ namespace Hopfield
                 {
                     var neuron = GetRandomUnVisitedNeuron();
                     _visitedNeurons[neuron] = true;
-                        double neuronOutput = (double)InputMatrix[neuron / _inputMatrixSize, neuron % _inputMatrixSize];
+                    double neuronOutput = (double)InputMatrix[neuron / _inputMatrixSize, neuron % _inputMatrixSize];
 
-                        for (int i = 0; i < _noOfNeurons; i++)
-                        {
-                            neuronOutput += WeightMatrix[neuron, i] * OutputMatrix[i / _inputMatrixSize, i % _inputMatrixSize];
-                        }
-                        int discreetNeuronOutput = (neuronOutput >= 0) ? 1 : -1;
-                        if (OutputMatrix[neuron / _inputMatrixSize, neuron % _inputMatrixSize] != discreetNeuronOutput)
-                        {
-                            noOfChanges++;
-                            OutputMatrix[neuron / _inputMatrixSize, neuron % _inputMatrixSize] = discreetNeuronOutput;
-                            DrawMatrix(OutputMatrix);
-                            Thread.Sleep(200);
-                        }
-                    
+                    for (int i = 0; i < _noOfNeurons; i++)
+                    {
+                        neuronOutput += WeightMatrix[neuron, i] * OutputMatrix[i / _inputMatrixSize, i % _inputMatrixSize];
+                    }
+                    int discreetNeuronOutput = (neuronOutput >= 0) ? 1 : -1;
+                    if (OutputMatrix[neuron / _inputMatrixSize, neuron % _inputMatrixSize] != discreetNeuronOutput)
+                    {
+                        noOfChanges++;
+                        OutputMatrix[neuron / _inputMatrixSize, neuron % _inputMatrixSize] = discreetNeuronOutput;
+                        DrawMatrix(OutputMatrix);
+                        Thread.Sleep(200);
+                    }
+
                 }
 
 
 
             }
+            train = false;
+            load = false;
             MessageBox.Show("Recognition is finished!");
 
         }
@@ -173,7 +174,8 @@ namespace Hopfield
                         {
                             tw.Write(a[i, j]);
                         }
-                        else {
+                        else
+                        {
                             tw.Write(-1);
                         }
                         tw.Write(" ");
@@ -192,9 +194,10 @@ namespace Hopfield
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (  comboBox1.SelectedIndex != -1)
+            if (comboBox1.SelectedIndex != -1)
             {
-                DrawNumber(comboBox1.SelectedIndex.ToString());
+                String text = comboBox1.SelectedItem.ToString();
+                DrawNumber(text);
                 load = true;
             }
             else
@@ -227,7 +230,7 @@ namespace Hopfield
             }
             return m;
         }
-        private void DrawMatrix(int[,]matrixToDraw)
+        private void DrawMatrix(int[,] matrixToDraw)
         {
             for (int i = 0; i < _inputMatrixSize; i++)
             {
@@ -238,7 +241,10 @@ namespace Hopfield
                     Controls.OfType<NeuronButton>().Where(a => a.I == j && a.J == i).First().ChangeColor();
                     if (uu != matrixToDraw[i, j])
                     {
-                        Refresh();
+                        if (load & train)
+                        {
+                            Refresh();
+                        }
                     }
                 }
             }
@@ -248,7 +254,7 @@ namespace Hopfield
             matrix = GetmatrixFromFile(fileName);
             DrawMatrix(matrix);
         }
-       
+
         private void button2_Click(object sender, EventArgs e)
         {
             var patterns = new List<int[,]>();
@@ -297,10 +303,11 @@ namespace Hopfield
 
         private void button4_Click(object sender, EventArgs e)
         {
-            if (textBox1.Text == " ")
+            if (textBox1.Text != "")
             {
                 WriteMatrixToFile(matrix);
             }
+            else
             {
                 MessageBox.Show("Give a filename to the pattern!");
             }

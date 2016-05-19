@@ -50,7 +50,17 @@
             "6",
             "7",
             "8",
-            "9"});
+            "9",
+            "0S",
+            "1S",
+            "2S",
+            "3S",
+            "4S",
+            "5S",
+            "6S",
+            "7S",
+            "8S",
+            "9S"});
             this.comboBox1.Location = new System.Drawing.Point(662, 22);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(120, 21);
@@ -79,7 +89,17 @@
             "6",
             "7",
             "8",
-            "9"});
+            "9",
+            "0S",
+            "1S",
+            "2S",
+            "3S",
+            "4S",
+            "5S",
+            "6S",
+            "7S",
+            "8S",
+            "9S"});
             this.checkedListBox1.Location = new System.Drawing.Point(662, 122);
             this.checkedListBox1.Name = "checkedListBox1";
             this.checkedListBox1.Size = new System.Drawing.Size(120, 94);
